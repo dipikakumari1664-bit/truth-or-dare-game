@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Anonymous Truth or Dare</title>
+<style>
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+text-align:center;
+margin:0;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+background:#6a5cff;
+border:none;
+color:white;
+border-radius:6px;
+}
+
+input{
+padding:10px;
+border-radius:6px;
+border:none;
+margin:5px;
+}
+
+#chat{
+height:150px;
+overflow:auto;
+background:#1c1c1c;
+padding:10px;
+margin-top:10px;
+}
+
+.player{
+background:#1c1c1c;
+padding:8px;
+margin:5px;
+border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Anonymous Truth or Dare</h1>
+
+<div id="home">
+<button onclick="createRoom()">Create Room</button>
+<br>
+<input id="roomInput" placeholder="Enter Room Code">
+<button onclick="joinRoom()">Join Room</button>
+</div>
+
+<div id="room" style="display:none;">
+<h2>Room Code: <span id="roomCode"></span></h2>
+
+<h3>Players</h3>
+<div id="players"></div>
+
+<button onclick="startGame()">Start Game</button>
+
+<h3 id="turn"></h3>
+
+<div id="game"></div>
+
+<h3>Chat</h3>
+<div id="chat"></div>
+
+<input id="msg" placeholder="Type message">
+<button onclick="sendMsg()">Send</button>
+</div>
+
+<script>
+
+let roomCode=""
+let players=[]
+let names=["ShadowFox","SilentTiger","NeonWolf","CosmicCat","NightOwl","GhostBear","StormLion","PixelPanda"]
+
+function randomName(){
+return names[Math.floor(Math.random()*names.length)]+Math.floor(Math.random()*100)
+}
+
+function createRoom(){
+roomCode=Math.floor(100000+Math.random()*900000)
+document.getElementById("home").style.display="none"
+document.getElementById("room").style.display="block"
+document.getElementById("roomCode").innerText=roomCode
+
+let name=randomName()
+players.push(name)
+
+updatePlayers()
+}
+
+function joinRoom(){
+roomCode=document.getElementById("roomInput").value
+if(roomCode.length!=6){alert("Enter 6 digit code");return}
+
+document.getElementById("home").style.display="none"
+document.getElementById("room").style.display="block"
+document.getElementById("roomCode").innerText=roomCode
+
+let name=randomName()
+players.push(name)
+
+updatePlayers()
+}
+
+function updatePlayers(){
+let list=""
+players.forEach(p=>{
+list+=`<div class="player">${p}</div>`
+})
+document.getElementById("players").innerHTML=list
+}
+
+function startGame(){
+if(players.length<2){
+alert("Need at least 2 players")
+return
+}
+
+let asker=players[Math.floor(Math.random()*players.length)]
+let answerer=players[Math.floor(Math.random()*players.length)]
+
+while(asker==answerer){
+answerer=players[Math.floor(Math.random()*players.length)]
+}
+
+document.getElementById("turn").innerText=asker+" asks "+answerer
+
+document.getElementById("game").innerHTML=`
+<button onclick="truth()">Truth</button>
+<button onclick="dare()">Dare</button>
+`
+}
+
+function truth(){
+document.getElementById("game").innerHTML=`
+<p>Ask a truth question</p>
+<input id="q">
+<button onclick="sendQ()">Send</button>
+`
+}
+
+function dare(){
+document.getElementById("game").innerHTML=`
+<p>Give a dare</p>
+<input id="q">
+<button onclick="sendQ()">Send</button>
+`
+}
+
+function sendQ(){
+let q=document.getElementById("q").value
+document.getElementById("game").innerHTML=`
+<p>${q}</p>
+<p>Answer in 20 seconds!</p>
+`
+setTimeout(startGame,20000)
+}
+
+function sendMsg(){
+let msg=document.getElementById("msg").value
+document.getElementById("chat").innerHTML+=`<div>${msg}</div>`
+document.getElementById("msg").value=""
+}
+
+</script>
+
+</body>
+  </html>
