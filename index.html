@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head> <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAiHfkvWYwOrcgNCZlg8R223VUppDqkmA8",
+  authDomain: "truth-or-dare-game-95067.firebaseapp.com",
+  projectId: "truth-or-dare-game-95067",
+  storageBucket: "truth-or-dare-game-95067.firebasestorage.app",
+  messagingSenderId: "756835287576",
+  appId: "1:756835287576:web:af81595fbb6e52c563396d"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+  </script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <title>Anonymous Truth or Dare</title>
 <style>
